@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="leezy.pheanstalk.command.abstract" class="Pyrowman\PheanstalkBundle\Command\AbstractPheanstalkCommand" abstract="true">
+            <argument type="service" id="leezy.pheanstalk.pheanstalk_locator"/>
+        </service>
+        <service id="leezy.pheanstalk.command.delete_job" class="Pyrowman\PheanstalkBundle\Command\DeleteJobCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.flush_tube" class="Pyrowman\PheanstalkBundle\Command\FlushTubeCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.kick" class="Pyrowman\PheanstalkBundle\Command\KickCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.kick_job" class="Pyrowman\PheanstalkBundle\Command\KickJobCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.list_tube" class="Pyrowman\PheanstalkBundle\Command\ListTubeCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.next_ready" class="Pyrowman\PheanstalkBundle\Command\NextReadyCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.pause_tube" class="Pyrowman\PheanstalkBundle\Command\PauseTubeCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.peek" class="Pyrowman\PheanstalkBundle\Command\PeekCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.peek_tube" class="Pyrowman\PheanstalkBundle\Command\PeekTubeCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.put" class="Pyrowman\PheanstalkBundle\Command\PutCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.stats" class="Pyrowman\PheanstalkBundle\Command\StatsCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.stats_job" class="Pyrowman\PheanstalkBundle\Command\StatsJobCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+        <service id="leezy.pheanstalk.command.stats_tube" class="Pyrowman\PheanstalkBundle\Command\StatsTubeCommand" parent="leezy.pheanstalk.command.abstract" public="true">
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>
