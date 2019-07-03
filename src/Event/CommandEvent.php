@@ -3,7 +3,7 @@
 namespace Pyrowman\PheanstalkBundle\Event;
 
 use Pheanstalk\PheanstalkInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class CommandEvent extends Event
 {

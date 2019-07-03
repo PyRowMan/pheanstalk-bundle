@@ -58,13 +58,13 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function delete($job)
+    public function delete(Workflow $workflow)
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::DELETE, new CommandEvent($this, ['job' => $job]));
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::DELETE);
         }
 
-        $this->pheanstalk->delete($job);
+        $this->pheanstalk->delete($workflow);
 
         return $this;
     }
@@ -115,7 +115,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     public function listTubes()
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::LIST_TUBES, new CommandEvent($this));
+            $this->dispatcher->dispatch(new CommandEvent($this), CommandEvent::LIST_TUBES);
         }
 
         return $this->pheanstalk->listTubes();
@@ -191,7 +191,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     public function peekReady($tube = null)
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::PEEK_READY, new CommandEvent($this, ['tube' => $tube]));
+            $this->dispatcher->dispatch(new CommandEvent($this, ['tube' => $tube]), CommandEvent::PEEK_READY);
         }
 
         return $this->pheanstalk->peekReady($tube);
@@ -324,7 +324,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     public function statsTube($tube)
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::STATS_TUBE, new CommandEvent($this, ['tube' => $tube]));
+            $this->dispatcher->dispatch(new CommandEvent($this, ['tube' => $tube]), CommandEvent::STATS_TUBE);
         }
 
         return $this->pheanstalk->statsTube($tube);
@@ -336,7 +336,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     public function stats()
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::STATS, new CommandEvent($this));
+            $this->dispatcher->dispatch(new CommandEvent($this), CommandEvent::STATS);
         }
 
         return $this->pheanstalk->stats();
@@ -453,32 +453,31 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function create(Workflow $workflow)
+    public function create(Workflow $workflow, $force = false): Workflow
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::CREATE_WORKFLOW, new CommandEvent($this, ['workflow' => $workflow]));
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::CREATE_WORKFLOW);
         }
 
-        $this->pheanstalk->create($workflow);
-        return $this;
+        $workflow = $this->pheanstalk->create($workflow);
+        return $workflow;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createTask(string $name, string $group, string $path, $queue = 'default', $comment = null)
+    public function createTask(string $name, string $group, string $path, $queue = 'default', $comment = null): Workflow
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::CREATE_TASK, new CommandEvent($this, [
+            $this->dispatcher->dispatch(new CommandEvent($this, [
                 'name' => $name,
                 'group' => $group,
                 'path' => $path,
                 'queue' => $queue,
                 'comment' => $comment
-            ]));
+            ]), CommandEvent::CREATE_TASK);
         }
 
-        $this->pheanstalk->createTask($name, $group, $path, $queue, $comment);
-        return $this;
+        return $this->pheanstalk->createTask($name, $group, $path, $queue, $comment);
     }
 }
