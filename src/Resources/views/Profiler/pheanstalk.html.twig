@@ -128,15 +128,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="float:left;width:100%;word-spacing:normal;word-wrap:break-word;max-width:720px;">
-{#                            Data: {{ job.data }}#}
-                        {% for stat, data in job.data %}
-                            <div>{{ stat }}: {{ data }}</div>
-{#                            <tr>#}
-{#                                <th style="width: 150px">{{ stat }}</th>#}
-{#                                <td>{{ data }}</td>#}
-{#                            </tr>#}
-                        {% endfor %}
+                        <div>
+                            <table>
+                            {% for stat, data in job.data.jobdata %}
+                                <tr>
+                                    <th style="">{{ stat }}</th>
+                                    <td>{{ data }}</td>
+                                </tr>
+                            {% endfor %}
+                            </table>
                         </div>
                     </td>
                 </tr>

@@ -2,6 +2,7 @@
 
 namespace Pyrowman\PheanstalkBundle\Proxy;
 
+use Pheanstalk\Pheanstalk;
 use Pheanstalk\Structure\Workflow;
 use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 use Pheanstalk\Connection;
@@ -21,7 +22,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     protected $name;
 
     /**
-     * @var PheanstalkInterface
+     * @var Pheanstalk
      */
     protected $pheanstalk;
 
@@ -86,13 +87,13 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function kick($max)
+    public function workflowExists($name)
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::KICK, new CommandEvent($this, ['max' => $max]));
+            $this->dispatcher->dispatch(new CommandEvent($this, ['name' => $name]), CommandEvent::WORKFLOW_EXISTS);
         }
 
-        return $this->pheanstalk->kick($max);
+        return $this->pheanstalk->workflowExists($name);
     }
 
     /**
@@ -224,48 +225,12 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function put($data, $priority = self::DEFAULT_PRIORITY, $delay = self::DEFAULT_DELAY, $ttr = self::DEFAULT_TTR)
+    public function put(Workflow $workflow)
     {
-        if ($this->dispatcher) {
-            $this->dispatcher->dispatch(
-                CommandEvent::PUT,
-                new CommandEvent(
-                    $this,
-                    [
-                        'data'     => $data,
-                        'priority' => $priority,
-                        'delay'    => $delay,
-                        'ttr'      => $ttr,
-                    ]
-                )
-            );
-        }
+        if ($this->dispatcher)
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::PUT);
 
-        return $this->pheanstalk->put($data, $priority, $delay, $ttr);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function putInTube($tube, $data, $priority = self::DEFAULT_PRIORITY, $delay = self::DEFAULT_DELAY, $ttr = self::DEFAULT_TTR)
-    {
-        if ($this->dispatcher) {
-            $this->dispatcher->dispatch(
-                CommandEvent::PUT_IN_TUBE,
-                new CommandEvent(
-                    $this,
-                    [
-                        'tube'     => $tube,
-                        'data'     => $data,
-                        'priority' => $priority,
-                        'delay'    => $delay,
-                        'ttr'      => $ttr,
-                    ]
-                )
-            );
-        }
-
-        return $this->pheanstalk->putInTube($tube, $data, $priority, $delay, $ttr);
+        return $this->pheanstalk->put($workflow);
     }
 
     /**

@@ -151,20 +151,10 @@ class PheanstalkDataCollector extends DataCollector
         try {
             $nextJobReady = $pheanstalk->peekReady($tubeName);
             $this->data['jobs'][$tubeName]['ready'] = [
-                'id'   => $nextJobReady->getId(),
-                'data' => $nextJobReady->getData(),
+                'id'   => $nextJobReady['id'],
+                'data' => $nextJobReady,
             ];
         } catch (ServerException $e) {
         }
-
-//        try {
-//            $nextJobBuried = $pheanstalk->peekBuried($tubeName);
-//
-//            $this->data['jobs'][$tubeName]['buried'] = [
-//                'id'   => $nextJobBuried->getId(),
-//                'data' => $nextJobBuried->getData(),
-//            ];
-//        } catch (ServerException $e) {
-//        }
     }
 }

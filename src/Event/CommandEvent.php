@@ -11,7 +11,7 @@ class CommandEvent extends Event
     const DELETE             = 'leezy.pheanstalk.event.delete';
     const IGNORE             = 'leezy.pheanstalk.event.ignore';
     const KICK               = 'leezy.pheanstalk.event.kick';
-    const KICK_JOB           = 'leezy.pheanstalk.event.kick_job';
+    const WORKFLOW_EXISTS    = 'leezy.pheanstalk.event.workflow_exists';
     const LIST_TUBE_USED     = 'leezy.pheanstalk.event.list_tube_used';
     const LIST_TUBES         = 'leezy.pheanstalk.event.list_tubes';
     const LIST_TUBES_WATCHED = 'leezy.pheanstalk.event.list_tubes_watched';
