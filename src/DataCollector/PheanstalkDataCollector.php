@@ -87,12 +87,12 @@ class PheanstalkDataCollector extends DataCollector
             // Get information about the tubes of this connection
             $tubes = $pheanstalk->listTubes();
 
+            $this->fetchJobs($pheanstalk);
             $this->data['tubes'] = [];
             /** @var Queue $tube */
             foreach ($tubes as $tube) {
 
                 // Fetch next ready job and next buried job for this tube
-                $this->fetchJobs($pheanstalk, $tube->getName());
                 $stats = $pheanstalk->statsTube($tube->getId())->getArrayCopy();
                 $this->data['tubes'][] = [
                     'pheanstalk' => $name,
@@ -147,13 +147,12 @@ class PheanstalkDataCollector extends DataCollector
      * Get the next job ready and buried in the specified tube and connection.
      *
      * @param PheanstalkInterface $pheanstalk
-     * @param string              $tubeName
      */
-    private function fetchJobs(PheanstalkInterface $pheanstalk, $tubeName)
+    private function fetchJobs(PheanstalkInterface $pheanstalk)
     {
         try {
-            $nextJobReady = $pheanstalk->peekReady($tubeName);
-            $this->data['jobs'][$tubeName]['ready'] = [
+            $nextJobReady = $pheanstalk->peek();
+            $this->data['jobs']['ready'] = [
                 'id'   => $nextJobReady['id'],
                 'data' => $nextJobReady,
             ];

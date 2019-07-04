@@ -96,7 +96,7 @@
         {% for row in data %}
             <tr>
                 <th colspan="2" style="text-align: center;vertical-align: middle;padding: 5px 0">
-                    {{ row.name }} tube on '{{ row.pheanstalk }}' pheanstalk
+                    '{{ row.name }}' tube on '{{ row.pheanstalk }}' pheanstalk
                 </th>
             </tr>
             <tbody>
@@ -116,29 +116,17 @@
 {% endblock %}
 
 {% block table_jobs %}
-    {% for tube, types in data %}
-        <table>
-            <th colspan="2" style="text-align: center;vertical-align: middle;padding: 5px 0">
-                {{ tube }}
-            </th>
-            {% for job_type, job in types %}
+    <table>
+    {% for job_type, job in data %}
+            <tr>
+                <th colspan="2" style="text-align: center;vertical-align: middle;padding: 5px 0">
+                    Next job {{ job_type }}
+                </th>
+            </tr>
+            {% for stat, data in job.data.jobdata %}
                 <tr>
-                    <th rowspan="2">Next {{ job_type }}</th>
-                    <td>Job ID: {{ job.id }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            <table>
-                            {% for stat, data in job.data.jobdata %}
-                                <tr>
-                                    <th style="">{{ stat }}</th>
-                                    <td>{{ data }}</td>
-                                </tr>
-                            {% endfor %}
-                            </table>
-                        </div>
-                    </td>
+                    <th style="width: 150px">{{ stat }}</th>
+                    <td>{{ data }}</td>
                 </tr>
             {% endfor %}
         </table>
