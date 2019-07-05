@@ -3,6 +3,7 @@
 namespace Pyrowman\PheanstalkBundle\DataCollector;
 
 use Pheanstalk\Structure\Queue;
+use Pheanstalk\Structure\Tube;
 use Pyrowman\PheanstalkBundle\PheanstalkLocator;
 use Pheanstalk\Exception\ServerException;
 use Pheanstalk\PheanstalkInterface;
@@ -89,9 +90,10 @@ class PheanstalkDataCollector extends DataCollector
 
             $this->fetchJobs($pheanstalk);
             $this->data['tubes'] = [];
-            /** @var Queue $tube */
+            /** @var Tube $tube */
             foreach ($tubes as $tube) {
-
+                if(strpos($tube->getName(), '@'))
+                    continue;
                 // Fetch next ready job and next buried job for this tube
                 $stats = $pheanstalk->statsTube($tube->getId())->getArrayCopy();
                 $this->data['tubes'][] = [

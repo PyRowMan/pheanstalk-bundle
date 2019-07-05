@@ -3,6 +3,7 @@
 namespace Pyrowman\PheanstalkBundle\Proxy;
 
 use Pheanstalk\Pheanstalk;
+use Pheanstalk\Structure\Tube;
 use Pheanstalk\Structure\Workflow;
 use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 use Pheanstalk\Connection;
@@ -259,5 +260,14 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         }
 
         return $this->pheanstalk->createTask($name, $group, $path, $queue, $user, $host, $comment);
+    }
+
+    public function createTube(Tube $tube): Tube
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['tube' => $tube]), COmmandEvent::CREATE_TUBE);
+        }
+
+        return $this->pheanstalk->createTube($tube);
     }
 }

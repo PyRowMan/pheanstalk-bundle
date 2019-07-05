@@ -34,26 +34,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller {
 
     public function indexAction() {
-        $pheanstalk = $this->get("leezy.pheanstalk");
+        
+        $sc = $this->get('service_container');
+        /** @var PheanstalkProxy $pheanstalk */
+        $pheanstalk = $sc->get("leezy.pheanstalk");
 
+        // Create a simple Worflow with one task inside
+        
+        $workflow = $pheanstalk->createTask('Sleep', 'Test', '/bin/sleep 80');
+        
+        // Put the job into instance execution
+        
+        $pheanstalk->put($workflow);
+        
         // ----------------------------------------
-        // producer (queues jobs)
+        // check server availability
+        
+        $pheanstalk->getConnection()->isServiceListening(); // true or false
+        
+        //-----------------------------------------
+        // Delete a job 
+        
+        if ($workflow = $pheanstalk->workflowExists('Sleep'))
+            $pheanstalk->delete($workflow);
 
-        $pheanstalk
-          ->useTube('testtube')
-          ->put("job payload goes here\n");
-
-        // ----------------------------------------
-        // worker (performs jobs)
-
-        $job = $pheanstalk
-          ->watch('testtube')
-          ->ignore('default')
-          ->reserve();
-
-        echo $job->getData();
-
-        $pheanstalk->delete($job);
+    }
+    
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            // ...
+            'service_container' => ContainerInterface::class,
+        ]);
     }
 
 }
