@@ -53,6 +53,11 @@ class HomeController extends Controller {
         $pheanstalk->getConnection()->isServiceListening(); // true or false
         
         //-----------------------------------------
+        // Add a scheduler for the job (by default in continous)
+        
+        $workflowSchedule = $pheanstalk->createSchedule($workflow, new TimeSchedule());
+        
+        //-----------------------------------------
         // Delete a job 
         
         if ($workflow = $pheanstalk->workflowExists('Sleep'))

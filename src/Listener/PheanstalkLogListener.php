@@ -17,19 +17,20 @@ class PheanstalkLogListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            CommandEvent::DELETE             => 'onCommand',
-            CommandEvent::LIST_TUBES         => 'onCommand',
-            CommandEvent::LIST_WORKFLOWS     => 'onCommand',
-            CommandEvent::PEEK               => 'onCommand',
-            CommandEvent::PUT                => 'onCommand',
-            CommandEvent::STATS              => 'onCommand',
-            CommandEvent::STATS_TUBE         => 'onCommand',
-            CommandEvent::STATS_JOB          => 'onCommand',
-            CommandEvent::CREATE_TASK        => 'onCommand',
-            CommandEvent::CREATE_TUBE        => 'onCommand',
-            CommandEvent::CREATE_WORKFLOW    => 'onCommand',
-            CommandEvent::WORKFLOW_EXISTS    => 'onCommand',
-            CommandEvent::TUBE_EXISTS        => 'onCommand',
+            CommandEvent::DELETE                        => 'onCommand',
+            CommandEvent::LIST_TUBES                    => 'onCommand',
+            CommandEvent::LIST_WORKFLOWS                => 'onCommand',
+            CommandEvent::PEEK                          => 'onCommand',
+            CommandEvent::PUT                           => 'onCommand',
+            CommandEvent::STATS                         => 'onCommand',
+            CommandEvent::STATS_TUBE                    => 'onCommand',
+            CommandEvent::STATS_JOB                     => 'onCommand',
+            CommandEvent::CREATE_TASK                   => 'onCommand',
+            CommandEvent::CREATE_TUBE                   => 'onCommand',
+            CommandEvent::CREATE_WORKFLOW               => 'onCommand',
+            CommandEvent::CREATE_WORKFLOW_SCHEDULER     => 'onCommand',
+            CommandEvent::WORKFLOW_EXISTS               => 'onCommand',
+            CommandEvent::TUBE_EXISTS                   => 'onCommand',
         ];
     }
 
