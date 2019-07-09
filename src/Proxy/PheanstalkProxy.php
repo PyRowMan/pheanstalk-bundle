@@ -266,7 +266,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function createTask(string $name, string $group, string $path, $queue = 'default', $user = null, $host = null, $comment = null): Workflow
+    public function createTask(string $name, string $group, string $path, $queue = 'default', $useAgent = false, $user = null, $host = null, $comment = null): Workflow
     {
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(new CommandEvent($this, [
@@ -274,13 +274,14 @@ class PheanstalkProxy implements PheanstalkProxyInterface
                 'group'     => $group,
                 'path'      => $path,
                 'queue'     => $queue,
+                'useAgent'  => $useAgent,
                 'user'      => $user,
                 'host'      => $host,
                 'comment'   => $comment
             ]), CommandEvent::CREATE_TASK);
         }
 
-        return $this->pheanstalk->createTask($name, $group, $path, $queue, $user, $host, $comment);
+        return $this->pheanstalk->createTask($name, $group, $path, $queue, $useAgent, $user, $host, $comment);
     }
 
     public function createTube(Tube $tube): Tube
