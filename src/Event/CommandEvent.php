@@ -9,6 +9,7 @@ class CommandEvent extends Event
 {
     const DELETE                        = 'leezy.pheanstalk.event.delete';
     const WORKFLOW_EXISTS               = 'leezy.pheanstalk.event.workflow_exists';
+    const TASK_EXISTS                   = 'leezy.pheanstalk.event.task_exists';
     const TUBE_EXISTS                   = 'leezy.pheanstalk.event.tube_exists';
     const LIST_TUBES                    = 'leezy.pheanstalk.event.list_tubes';
     const LIST_WORKFLOWS                = 'leezy.pheanstalk.event.list_workflows';
