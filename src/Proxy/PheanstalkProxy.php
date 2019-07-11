@@ -110,6 +110,18 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
+    public function getWorkflowInstances(Workflow $workflow)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::WORKFLOW_INSTANCES);
+        }
+
+        return $this->pheanstalk->getWorkflowInstances($workflow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function tubeExists($name)
     {
         if ($this->dispatcher) {
