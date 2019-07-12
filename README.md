@@ -57,6 +57,12 @@ class HomeController extends Controller {
         
         $workflowSchedule = $pheanstalk->createSchedule($workflow, new TimeSchedule());
         
+        
+        //-----------------------------------------
+        // Getting infos on the execution of a workflow
+        $workflowInstancesExecuting = $pheanstalk->getWorkflowInstances($workflow, GetWorkflowInstancesCommand::FILTER_EXECUTING);
+        $workflowInstancesTerminated = $pheanstalk->getWorkflowInstances($workflow, GetWorkflowInstancesCommand::FILTER_TERMINATED);
+        
         //-----------------------------------------
         // Delete a job 
         
