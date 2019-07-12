@@ -3,10 +3,12 @@
 namespace Pyrowman\PheanstalkBundle\Proxy;
 
 use Pheanstalk\Command\CreateScheduleCommand;
+use Pheanstalk\Command\GetWorkflowInstancesCommand;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\Structure\TimeSchedule;
 use Pheanstalk\Structure\Tube;
 use Pheanstalk\Structure\Workflow;
+use Pheanstalk\Structure\WorkflowInstance;
 use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 use Pheanstalk\Connection;
 use Pheanstalk\PheanstalkInterface;
@@ -110,13 +112,29 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function getWorkflowInstances(Workflow $workflow)
+    public function getWorkflowInstances(?Workflow $workflow, string $status = GetWorkflowInstancesCommand::FILTER_EXECUTING)
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::WORKFLOW_INSTANCES);
+            $this->dispatcher->dispatch(new CommandEvent($this, [
+                'workflow'  => $workflow,
+                'status'    => $status
+            ]), CommandEvent::WORKFLOW_INSTANCES);
         }
 
-        return $this->pheanstalk->getWorkflowInstances($workflow);
+        return $this->pheanstalk->getWorkflowInstances($workflow, $status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getWorkflowInstancesDetails(WorkflowInstance $workflowInstance)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflowInstance'  => $workflowInstance]),
+                CommandEvent::WORKFLOW_INSTANCES_DETAILS);
+        }
+
+        return $this->pheanstalk->getWorkflowInstancesDetails($workflowInstance);
     }
 
     /**
