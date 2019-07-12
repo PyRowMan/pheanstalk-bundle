@@ -112,7 +112,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function getWorkflowInstances(?Workflow $workflow, string $status = GetWorkflowInstancesCommand::FILTER_EXECUTING)
+    public function getWorkflowInstances(?Workflow $workflow, string $status = null)
     {
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(new CommandEvent($this, [

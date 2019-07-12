@@ -60,8 +60,8 @@ class HomeController extends Controller {
         
         //-----------------------------------------
         // Getting infos on the execution of a workflow
-        $workflowInstancesExecuting = $pheanstalk->getWorkflowInstances($workflow, GetWorkflowInstancesCommand::FILTER_EXECUTING);
-        $workflowInstancesTerminated = $pheanstalk->getWorkflowInstances($workflow, GetWorkflowInstancesCommand::FILTER_TERMINATED);
+        
+        $workflowInstances = $pheanstalk->getWorkflowInstances($workflow);
         
         //-----------------------------------------
         // Delete a job 
