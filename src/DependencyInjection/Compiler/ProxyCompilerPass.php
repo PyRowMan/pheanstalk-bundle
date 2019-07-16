@@ -54,7 +54,13 @@ class ProxyCompilerPass implements CompilerPassInterface
                 throw new \RuntimeException('Reserved pheanstalk name: '.$name);
             }
 
-            $pheanstalkConfig = [$pheanstalk['server'], $pheanstalk['port'], $pheanstalk['timeout']];
+            $pheanstalkConfig = [
+                $pheanstalk['server'],
+                $pheanstalk['user'] ?? null,
+                $pheanstalk['password'] ?? null,
+                $pheanstalk['port'],
+                $pheanstalk['timeout']
+            ];
             $isDefault        = $pheanstalk['default'];
 
             # @see https://github.com/armetiz/LeezyPheanstalkBundle/issues/61

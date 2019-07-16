@@ -153,6 +153,7 @@ class PheanstalkDataCollector extends DataCollector
     private function fetchJobs(PheanstalkInterface $pheanstalk)
     {
         try {
+//            $pheanstalk->getWorkflowInstances();
             $nextJobReady = $pheanstalk->peek();
             $this->data['jobs']['ready'] = [
                 'id'   => $nextJobReady['id'],
