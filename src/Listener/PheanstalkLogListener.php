@@ -28,6 +28,7 @@ class PheanstalkLogListener implements EventSubscriberInterface
             CommandEvent::CREATE_TASK                   => 'onCommand',
             CommandEvent::CREATE_TUBE                   => 'onCommand',
             CommandEvent::CREATE_WORKFLOW               => 'onCommand',
+            CommandEvent::UPDATE_WORKFLOW               => 'onCommand',
             CommandEvent::CREATE_WORKFLOW_SCHEDULER     => 'onCommand',
             CommandEvent::WORKFLOW_EXISTS               => 'onCommand',
             CommandEvent::WORKFLOW_INSTANCES            => 'onCommand',

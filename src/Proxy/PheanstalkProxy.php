@@ -289,6 +289,18 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function update(Workflow $workflow): Workflow
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::UPDATE_WORKFLOW);
+        }
+
+        return $this->pheanstalk->update($workflow);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createSchedule(Workflow $workflow, TimeSchedule $schedule, $onFailure = CreateScheduleCommand::FAILURE_TYPE_CONTINUE, $active = true, $comment = null)
     {
         if ($this->dispatcher) {

@@ -57,6 +57,12 @@ class HomeController extends Controller {
         
         $workflowSchedule = $pheanstalk->createSchedule($workflow, new TimeSchedule());
         
+        //-----------------------------------------
+        // Edit a workflow
+        
+        $workflow->setGroup('2nd test group');
+        $pheanstalk->update($workflow);
+        
         
         //-----------------------------------------
         // Getting infos on the execution of a workflow

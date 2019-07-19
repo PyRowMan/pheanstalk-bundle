@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('leezy_pheanstalk')->children();
+        $treeBuilder = new TreeBuilder('leezy_pheanstalk');
+        $rootNode = $treeBuilder->getRootNode()->children();
 
         $rootNode
             ->arrayNode('profiler')
