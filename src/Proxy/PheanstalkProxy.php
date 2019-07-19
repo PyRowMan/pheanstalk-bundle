@@ -346,4 +346,15 @@ class PheanstalkProxy implements PheanstalkProxyInterface
 
         return $this->pheanstalk->createTube($tube);
     }
+
+
+
+    public function updateTube(Tube $tube): Tube
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['tube' => $tube]), COmmandEvent::CREATE_TUBE);
+        }
+
+        return $this->pheanstalk->updateTube($tube);
+    }
 }
