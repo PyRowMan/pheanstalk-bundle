@@ -5,6 +5,7 @@ namespace Pyrowman\PheanstalkBundle\Proxy;
 use Pheanstalk\Command\CreateScheduleCommand;
 use Pheanstalk\Command\GetWorkflowInstancesCommand;
 use Pheanstalk\Pheanstalk;
+use Pheanstalk\Structure\TaskInstance;
 use Pheanstalk\Structure\TimeSchedule;
 use Pheanstalk\Structure\Tube;
 use Pheanstalk\Structure\Workflow;
@@ -338,6 +339,9 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         return $this->pheanstalk->createTask($name, $group, $path, $queue, $useAgent, $user, $host, $comment);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function createTube(Tube $tube): Tube
     {
         if ($this->dispatcher) {
@@ -347,8 +351,9 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         return $this->pheanstalk->createTube($tube);
     }
 
-
-
+    /**
+     * {@inheritdoc}
+     */
     public function updateTube(Tube $tube): Tube
     {
         if ($this->dispatcher) {
@@ -356,5 +361,26 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         }
 
         return $this->pheanstalk->updateTube($tube);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function cancel(WorkflowInstance $workflowInstance)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance]), COmmandEvent::CANCEL);
+        }
+
+        return $this->pheanstalk->cancel($workflowInstance);
+    }
+
+    public function kill(WorkflowInstance $workflowInstance, TaskInstance $taskInstance)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance, 'taskInstance' => $taskInstance]), COmmandEvent::CANCEL);
+        }
+
+        return $this->pheanstalk->kill($workflowInstance, $taskInstance);
     }
 }

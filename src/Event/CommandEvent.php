@@ -18,6 +18,8 @@ class CommandEvent extends Event
     const PEEK                          = 'leezy.pheanstalk.event.peek';
     const PEEK_READY                    = 'leezy.pheanstalk.event.peek_ready';
     const PUT                           = 'leezy.pheanstalk.event.put';
+    const CANCEL                        = 'leezy.pheanstalk.event.cancel';
+    const KILL                          = 'leezy.pheanstalk.event.kill';
     const STATS                         = 'leezy.pheanstalk.event.stats';
     const STATS_TUBE                    = 'leezy.pheanstalk.event.stats_tube';
     const STATS_JOB                     = 'leezy.pheanstalk.event.stats_job';

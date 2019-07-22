@@ -35,6 +35,8 @@ class PheanstalkLogListener implements EventSubscriberInterface
             CommandEvent::WORKFLOW_INSTANCES_DETAILS    => 'onCommand',
             CommandEvent::TASK_EXISTS                   => 'onCommand',
             CommandEvent::TUBE_EXISTS                   => 'onCommand',
+            CommandEvent::CANCEL                        => 'onCommand',
+            CommandEvent::KILL                          => 'onCommand',
         ];
     }
 
