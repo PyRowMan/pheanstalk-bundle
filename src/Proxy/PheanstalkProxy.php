@@ -5,6 +5,7 @@ namespace Pyrowman\PheanstalkBundle\Proxy;
 use Pheanstalk\Command\CreateScheduleCommand;
 use Pheanstalk\Command\GetWorkflowInstancesCommand;
 use Pheanstalk\Pheanstalk;
+use Pheanstalk\Structure\Schedule;
 use Pheanstalk\Structure\TaskInstance;
 use Pheanstalk\Structure\TimeSchedule;
 use Pheanstalk\Structure\Tube;
@@ -302,19 +303,15 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function createSchedule(Workflow $workflow, TimeSchedule $schedule, $onFailure = CreateScheduleCommand::FAILURE_TYPE_CONTINUE, $active = true, $comment = null)
+    public function createSchedule(Schedule $schedule)
     {
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(new CommandEvent($this, [
-                'workflow'  => $workflow,
                 'schedule'  => $schedule,
-                'onFailure' => $onFailure,
-                'active'    => $active,
-                'comment'   => $comment
             ]), CommandEvent::CREATE_WORKFLOW);
         }
 
-        $workflowSchedule = $this->pheanstalk->createSchedule($workflow, $schedule, $onFailure, $active, $comment);
+        $workflowSchedule = $this->pheanstalk->createSchedule($schedule);
         return $workflowSchedule;
     }
 
