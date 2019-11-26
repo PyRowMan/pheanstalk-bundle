@@ -308,11 +308,55 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(new CommandEvent($this, [
                 'schedule'  => $schedule,
-            ]), CommandEvent::CREATE_WORKFLOW);
+            ]), CommandEvent::CREATE_SCHEDULE);
         }
 
         $workflowSchedule = $this->pheanstalk->createSchedule($schedule);
         return $workflowSchedule;
+    }
+    
+    public function deleteSchedule(Schedule $schedule)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, [
+                'schedule'  => $schedule,
+            ]), CommandEvent::DELETE_SCHEDULE);
+        }
+
+        return $this->pheanstalk->deleteSchedule($schedule);
+    }
+    
+    public function getSchedule(int $schedule)
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, [
+                'schedule'  => $schedule,
+            ]), CommandEvent::GET_SCHEDULE);
+        }
+
+        return $this->pheanstalk->getSchedule($schedule);
+    }
+    
+    public function updateSchedule(Schedule $schedule): Schedule
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, [
+                'schedule'  => $schedule,
+            ]), CommandEvent::UPDATE_SCHEDULE);
+        }
+
+        return $this->pheanstalk->updateSchedule($schedule);
+    }
+    
+    public function listSchedules()
+    {
+        if ($this->dispatcher) {
+            $this->dispatcher->dispatch(new CommandEvent($this, [
+                'schedule'  => $schedule,
+            ]), CommandEvent::LIST_SCHEDULE);
+        }
+
+        return $this->pheanstalk->listSchedules($schedule);
     }
 
     /**

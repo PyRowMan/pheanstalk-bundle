@@ -24,6 +24,11 @@ class CommandEvent extends Event
     const STATS_TUBE                    = 'leezy.pheanstalk.event.stats_tube';
     const STATS_JOB                     = 'leezy.pheanstalk.event.stats_job';
     const CREATE_WORKFLOW               = 'leezy.pheanstalk.event.create_workflow';
+    const CREATE_SCHEDULE               = 'leezy.pheanstalk.event.create_schedule';
+    const UPDATE_SCHEDULE               = 'leezy.pheanstalk.event.create_schedule';
+    const DELETE_SCHEDULE               = 'leezy.pheanstalk.event.delete_schedule';
+    const LIST_SCHEDULE                 = 'leezy.pheanstalk.event.list_schedule';
+    const GET_SCHEDULE                  = 'leezy.pheanstalk.event.get_schedule';
     const UPDATE_WORKFLOW               = 'leezy.pheanstalk.event.update_workflow';
     const CREATE_WORKFLOW_SCHEDULER     = 'leezy.pheanstalk.event.create_workflow_scheduler';
     const CREATE_TASK                   = 'leezy.pheanstalk.event.create_task';
