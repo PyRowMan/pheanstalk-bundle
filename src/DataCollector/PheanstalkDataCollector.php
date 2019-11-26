@@ -76,7 +76,7 @@ class PheanstalkDataCollector extends DataCollector
                 continue;
             }
 
-            $pheanstalkStatistics = $pheanstalk->stats()->getArrayCopy();
+            $pheanstalkStatistics = $pheanstalk->stats();
 
             // Get information about this connection
             $this->data['pheanstalks'][$name]['stats'] = $pheanstalkStatistics['statistics']['@attributes'];
@@ -95,7 +95,7 @@ class PheanstalkDataCollector extends DataCollector
                 if(strpos($tube->getName(), '@'))
                     continue;
                 // Fetch next ready job and next buried job for this tube
-                $stats = $pheanstalk->statsTube($tube->getId())->getArrayCopy();
+                $stats = $pheanstalk->statsTube($tube);
                 $this->data['tubes'][] = [
                     'pheanstalk' => $name,
                     'name'       => $tube->getName(),
@@ -154,7 +154,7 @@ class PheanstalkDataCollector extends DataCollector
     {
         try {
 //            $pheanstalk->getWorkflowInstances();
-            $nextJobReady = $pheanstalk->peek();
+            $nextJobReady = $pheanstalk->peek()[1];
             $this->data['jobs']['ready'] = [
                 'id'   => $nextJobReady['id'],
                 'data' => $nextJobReady,

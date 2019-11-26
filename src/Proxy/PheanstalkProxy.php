@@ -201,7 +201,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function statsTube($tube)
+    public function statsTube(Tube $tube)
     {
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(new CommandEvent($this, ['tube' => $tube]), CommandEvent::STATS_TUBE);
