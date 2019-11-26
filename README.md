@@ -1,5 +1,10 @@
 ## LeezyPheanstalkBundle
 
+[![Packagist Version](https://img.shields.io/packagist/v/pyrowman/pheanstalk-bundle)](https://packagist.org/packages/pyrowman/pheanstalk-bundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PyRowMan/pheanstalk-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PyRowMan/pheanstalk-bundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/PyRowMan/pheanstalk-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PyRowMan/pheanstalk-bundle/?branch=master)
+[![Build Status](https://travis-ci.org/PyRowMan/pheanstalk-bundle.svg?branch=master)](https://travis-ci.org/PyRowMan/pheanstalk-bundle)
+
 [EvQueue workqueue](http://www.evqueue.net/) clients for Symfony2.
 
 The Pyrowman\LeezyPheanstalkBundle is a fork from [LeezyPheanstalkBundle](https://github.com/armetiz/LeezyPheanstalkBundle) 
