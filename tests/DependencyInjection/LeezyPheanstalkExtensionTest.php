@@ -2,6 +2,7 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\DependencyInjection\LeezyPheanstalkExtension;
 use Pyrowman\PheanstalkBundle\LeezyPheanstalkBundle;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
@@ -9,7 +10,7 @@ use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class LeezyPheanstalkExtensionTest extends \PHPUnit_Framework_TestCase
+class LeezyPheanstalkExtensionTest extends TestCase
 {
     /**
      * @var ContainerBuilder

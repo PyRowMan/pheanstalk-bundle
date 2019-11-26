@@ -2,12 +2,13 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\Proxy;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxy;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
 use Pheanstalk\PheanstalkInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PheanstalkProxyTest extends \PHPUnit_Framework_TestCase
+class PheanstalkProxyTest extends TestCase
 {
     /**
      * @var PheanstalkProxyInterface

@@ -2,10 +2,11 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\PheanstalkLocator;
 use Pheanstalk\PheanstalkInterface;
 
-class PheanstalkLocatorTest extends \PHPUnit_Framework_TestCase
+class PheanstalkLocatorTest extends TestCase
 {
     public function testDefaultPheanstalks()
     {

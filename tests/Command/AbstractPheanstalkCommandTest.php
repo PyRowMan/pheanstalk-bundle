@@ -2,6 +2,7 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Command\AbstractPheanstalkCommand;
 use Pyrowman\PheanstalkBundle\PheanstalkLocator;
 use Pheanstalk\Connection;
@@ -10,7 +11,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-abstract class AbstractPheanstalkCommandTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractPheanstalkCommandTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|KernelInterface

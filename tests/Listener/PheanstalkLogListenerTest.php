@@ -2,6 +2,7 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\Listener;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 use Pyrowman\PheanstalkBundle\Listener\PheanstalkLogListener;
 use Pheanstalk\Connection;
@@ -9,7 +10,7 @@ use Pheanstalk\PheanstalkInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class PheanstalkLogListenerTest extends \PHPUnit_Framework_TestCase
+class PheanstalkLogListenerTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|PheanstalkInterface

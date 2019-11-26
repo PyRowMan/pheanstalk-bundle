@@ -2,6 +2,7 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\DataCollector\PheanstalkDataCollector;
 use Pyrowman\PheanstalkBundle\PheanstalkLocator;
 use Pheanstalk\Connection;
@@ -9,7 +10,7 @@ use Pheanstalk\PheanstalkInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PheanstalkDataCollectorTest extends \PHPUnit_Framework_TestCase
+class PheanstalkDataCollectorTest extends TestCase
 {
     public function testCollect()
     {

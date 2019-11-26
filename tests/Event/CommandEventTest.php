@@ -2,10 +2,11 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\Event;
 
+use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 use Pheanstalk\PheanstalkInterface;
 
-class CommandEventTest extends \PHPUnit_Framework_TestCase
+class CommandEventTest extends TestCase
 {
     public function testCommandEvent()
     {
