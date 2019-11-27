@@ -61,7 +61,7 @@ class ProxyCompilerPass implements CompilerPassInterface
                 $pheanstalk['port'],
                 $pheanstalk['timeout']
             ];
-            $isDefault        = $pheanstalk['default'];
+            $isDefault = $pheanstalk['default'];
 
             # @see https://github.com/armetiz/pyrowmanPheanstalkBundle/issues/61
             $pheanstalkDef = clone $container->getDefinition($pheanstalk['proxy']);

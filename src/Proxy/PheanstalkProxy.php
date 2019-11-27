@@ -180,8 +180,9 @@ class PheanstalkProxy implements PheanstalkProxyInterface
      */
     public function put(Workflow $workflow)
     {
-        if ($this->dispatcher)
-            $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::PUT);
+        if ($this->dispatcher) {
+                    $this->dispatcher->dispatch(new CommandEvent($this, ['workflow' => $workflow]), CommandEvent::PUT);
+        }
 
         return $this->pheanstalk->put($workflow);
     }
