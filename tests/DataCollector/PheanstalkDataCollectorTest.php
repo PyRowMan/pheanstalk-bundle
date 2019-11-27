@@ -26,7 +26,7 @@ class PheanstalkDataCollectorTest extends TestCase
         $pheanstalkConnection
             ->expects($this->any())
             ->method('getPort')
-            ->will($this->returnValue('11130'));
+            ->will($this->returnValue('5000'));
 
         $pheanstalkConnection
             ->expects($this->any())

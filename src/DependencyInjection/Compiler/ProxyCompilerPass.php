@@ -39,14 +39,14 @@ class ProxyCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasParameter('leezy.pheanstalk.pheanstalks')) {
+        if (!$container->hasParameter('pyrowman.pheanstalk.pheanstalks')) {
             return;
         }
 
         $defaultPheanstalkName = null;
-        $pheanstalks           = $container->getParameter('leezy.pheanstalk.pheanstalks');
+        $pheanstalks           = $container->getParameter('pyrowman.pheanstalk.pheanstalks');
 
-        $pheanstalkLocatorDef = $container->getDefinition('leezy.pheanstalk.pheanstalk_locator');
+        $pheanstalkLocatorDef = $container->getDefinition('pyrowman.pheanstalk.pheanstalk_locator');
 
         // For each connection in the configuration file
         foreach ($pheanstalks as $name => $pheanstalk) {
@@ -63,19 +63,19 @@ class ProxyCompilerPass implements CompilerPassInterface
             ];
             $isDefault        = $pheanstalk['default'];
 
-            # @see https://github.com/armetiz/LeezyPheanstalkBundle/issues/61
+            # @see https://github.com/armetiz/pyrowmanPheanstalkBundle/issues/61
             $pheanstalkDef = clone $container->getDefinition($pheanstalk['proxy']);
 
             $pheanstalkDef->addMethodCall('setPheanstalk', [new Definition(Pheanstalk::class, $pheanstalkConfig)]);
             $pheanstalkDef->addMethodCall('setName', [$name]);
             $pheanstalkDef->setPublic(true);
 
-            $container->setDefinition('leezy.pheanstalk.'.$name, $pheanstalkDef);
+            $container->setDefinition('pyrowman.pheanstalk.'.$name, $pheanstalkDef);
 
             // Register the connection in the connection locator
             $pheanstalkLocatorDef->addMethodCall('addPheanstalk', [
                 $name,
-                $container->getDefinition('leezy.pheanstalk.'.$name),
+                $container->getDefinition('pyrowman.pheanstalk.'.$name),
                 $isDefault,
             ]);
 
@@ -85,12 +85,12 @@ class ProxyCompilerPass implements CompilerPassInterface
                 }
 
                 $defaultPheanstalkName = $name;
-                $legacyAlias = $container->setAlias('leezy.pheanstalk', 'leezy.pheanstalk.'.$name);
+                $legacyAlias = $container->setAlias('pyrowman.pheanstalk', 'pyrowman.pheanstalk.'.$name);
                 if ($legacyAlias) {
                     $legacyAlias->setPublic(true);
                 }
 
-                $autoWiringAlias = $container->setAlias(PheanstalkInterface::class, 'leezy.pheanstalk');
+                $autoWiringAlias = $container->setAlias(PheanstalkInterface::class, 'pyrowman.pheanstalk');
                 if ($autoWiringAlias) {
                     $autoWiringAlias->setPublic(true);
                 }

@@ -5,6 +5,7 @@ namespace Pyrowman\PheanstalkBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\DependencyInjection\LeezyPheanstalkExtension;
 use Pyrowman\PheanstalkBundle\LeezyPheanstalkBundle;
+use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxy;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -39,11 +40,11 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testInitConfiguration()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
-                        'server'  => 'beanstalkd.domain.tld',
-                        'port'    => 11300,
+                        'server'  => 'evqueue.domain.tld',
+                        'port'    => 5000,
                         'timeout' => 60,
                         'default' => true,
                     ],
@@ -53,18 +54,18 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.pheanstalk_locator'));
-        $this->assertTrue($this->container->hasParameter('leezy.pheanstalk.pheanstalks'));  // Needed by ProxyCompilerPass
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.pheanstalk_locator'));
+        $this->assertTrue($this->container->hasParameter('pyrowman.pheanstalk.pheanstalks'));  // Needed by ProxyCompilerPass
     }
 
     public function testDefaultPheanstalk()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
-                        'server'  => 'beanstalkd.domain.tld',
-                        'port'    => 11300,
+                        'server'  => 'evqueue.domain.tld',
+                        'port'    => 5000,
                         'timeout' => 60,
                         'default' => true,
                     ],
@@ -74,14 +75,14 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.primary'));
-        $this->assertTrue($this->container->hasAlias('leezy.pheanstalk'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.primary'));
+        $this->assertTrue($this->container->hasAlias('pyrowman.pheanstalk'));
     }
 
     public function testNoDefaultPheanstalk()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -94,8 +95,8 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.primary'));
-        $this->assertFalse($this->container->hasAlias('leezy.pheanstalk'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.primary'));
+        $this->assertFalse($this->container->hasAlias('pyrowman.pheanstalk'));
     }
 
     /**
@@ -104,7 +105,7 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testTwoDefaultPheanstalks()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'one' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -124,7 +125,7 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testMultiplePheanstalks()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'one'   => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -143,18 +144,18 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.one'));
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.two'));
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.three'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.one'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.two'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.three'));
 
-        # @see https://github.com/armetiz/LeezyPheanstalkBundle/issues/61
-        $this->assertNotSame($this->container->getDefinition('leezy.pheanstalk.one'), $this->container->getDefinition('leezy.pheanstalk.two'));
+        # @see https://github.com/armetiz/pyrowmanPheanstalkBundle/issues/61
+        $this->assertNotSame($this->container->getDefinition('pyrowman.pheanstalk.one'), $this->container->getDefinition('pyrowman.pheanstalk.two'));
     }
 
     public function testPheanstalkLocator()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -168,7 +169,7 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.pheanstalk_locator'));
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.pheanstalk_locator'));
     }
 
     /**
@@ -177,7 +178,7 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testPheanstalkProxyCustomTypeNotDefined()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -198,7 +199,7 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testPheanstalkReservedName()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'proxy' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -216,11 +217,11 @@ class LeezyPheanstalkExtensionTest extends TestCase
     public function testPheanstalkProxyCustomType()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
-                        'server'  => 'beanstalkd.domain.tld',
-                        'port'    => 11300,
+                        'server'  => 'evqueue.domain.tld',
+                        'port'    => 5000,
                         'timeout' => 60,
                         'proxy'   => 'acme.pheanstalk.pheanstalk_proxy',
                     ],
@@ -228,16 +229,17 @@ class LeezyPheanstalkExtensionTest extends TestCase
             ],
         ];
 
-        $this->container->setDefinition('acme.pheanstalk.pheanstalk_proxy', new Definition(PheanstalkProxyInterface::class));
+        $this->container->setDefinition('acme.pheanstalk.pheanstalk_proxy', new Definition(PheanstalkProxy::class));
 
         $this->extension->load($config, $this->container);
         $this->container->compile();
+        $this->assertNotNull($this->container->get('pyrowman.pheanstalk.primary'));
     }
 
     public function testLoggerConfiguration()
     {
         $config = [
-            'leezy_pheanstalk' => [
+            'pyrowman_pheanstalk' => [
                 'pheanstalks' => [
                     'primary' => [
                         'server'  => 'beanstalkd.domain.tld',
@@ -254,13 +256,38 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->extension->load($config, $this->container);
         $this->container->compile();
 
-        $this->assertTrue($this->container->hasDefinition('leezy.pheanstalk.listener.log'));
-        $listener = $this->container->getDefinition('leezy.pheanstalk.listener.log');
+        $this->assertTrue($this->container->hasDefinition('pyrowman.pheanstalk.listener.log'));
+        $listener = $this->container->getDefinition('pyrowman.pheanstalk.listener.log');
 
         $this->assertTrue($listener->hasMethodCall('setLogger'));
         $this->assertTrue($listener->hasTag('monolog.logger'));
 
         $tag = $listener->getTag('monolog.logger');
         $this->assertEquals('pheanstalk', $tag[0]['channel']);
+    }
+
+    public function testPheanstalkProfilerDisabled()
+    {
+        $config = [
+            'pyrowman_pheanstalk' => [
+                'pheanstalks' => [
+                    'primary' => [
+                        'server'  => 'evqueue.domain.tld',
+                        'port'    => 5000,
+                        'timeout' => 60,
+                        'proxy'   => 'acme.pheanstalk.pheanstalk_proxy',
+                    ],
+                ],
+                'profiler' => [
+                    "enabled" => false
+                ]
+            ],
+        ];
+
+        $this->container->setDefinition('acme.pheanstalk.pheanstalk_proxy', new Definition(PheanstalkProxy::class));
+
+        $this->extension->load($config, $this->container);
+        $this->container->compile();
+        $this->assertFalse($this->container->hasDefinition('pyrowman.pheanstalk.data_collector'));
     }
 }

@@ -189,18 +189,6 @@ class PheanstalkProxy implements PheanstalkProxyInterface
     /**
      * {@inheritDoc}
      */
-    public function statsJob($job)
-    {
-        if ($this->dispatcher) {
-            $this->dispatcher->dispatch(CommandEvent::STATS_JOB, new CommandEvent($this, ['job' => $job]));
-        }
-
-        return $this->pheanstalk->statsJob($job);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function statsTube(Tube $tube)
     {
         if ($this->dispatcher) {
@@ -314,7 +302,10 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         $workflowSchedule = $this->pheanstalk->createSchedule($schedule);
         return $workflowSchedule;
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function deleteSchedule(Schedule $schedule)
     {
         if ($this->dispatcher) {
@@ -325,7 +316,10 @@ class PheanstalkProxy implements PheanstalkProxyInterface
 
         return $this->pheanstalk->deleteSchedule($schedule);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function getSchedule(int $schedule)
     {
         if ($this->dispatcher) {
@@ -336,7 +330,10 @@ class PheanstalkProxy implements PheanstalkProxyInterface
 
         return $this->pheanstalk->getSchedule($schedule);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateSchedule(Schedule $schedule): Schedule
     {
         if ($this->dispatcher) {
@@ -347,16 +344,17 @@ class PheanstalkProxy implements PheanstalkProxyInterface
 
         return $this->pheanstalk->updateSchedule($schedule);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function listSchedules()
     {
         if ($this->dispatcher) {
-            $this->dispatcher->dispatch(new CommandEvent($this, [
-                'schedule'  => $schedule,
-            ]), CommandEvent::LIST_SCHEDULE);
+            $this->dispatcher->dispatch(new CommandEvent($this, []), CommandEvent::LIST_SCHEDULE);
         }
 
-        return $this->pheanstalk->listSchedules($schedule);
+        return $this->pheanstalk->listSchedules();
     }
 
     /**

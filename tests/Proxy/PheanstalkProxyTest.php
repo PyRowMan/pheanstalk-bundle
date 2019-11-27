@@ -2,6 +2,13 @@
 
 namespace Pyrowman\PheanstalkBundle\Tests\Proxy;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Pheanstalk\Structure\Schedule;
+use Pheanstalk\Structure\TaskInstance;
+use Pheanstalk\Structure\TimeSchedule;
+use Pheanstalk\Structure\Tube;
+use Pheanstalk\Structure\Workflow;
+use Pheanstalk\Structure\WorkflowInstance;
 use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxy;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
@@ -46,31 +53,37 @@ class PheanstalkProxyTest extends TestCase
 
     public function namedFunctions()
     {
+        $workflow = new Workflow('testName', 'testGroup', new ArrayCollection([]));
+        $workflowInstance = new WorkflowInstance([]);
+        $taskInstance = new TaskInstance([]);
+        $tube = new Tube('testTube', 1);
+        $schedule = new Schedule(1, new TimeSchedule());
         return [
-            ['bury', ['foo', 42]],
-            ['delete', ['foo']],
-            ['ignore', ['foo']],
-            ['kick', [42]],
-            ['listTubes'],
-            ['listTubesWatched', [true]],
-            ['listTubeUsed', [true]],
-            ['pauseTube', ['foo', 42]],
-            ['peek', [42]],
-            ['peekReady', ['foo']],
-            ['peekDelayed', ['foo']],
-            ['peekBuried', ['foo']],
-            ['put', ['foo', 42, 42, 42]],
-            ['putInTube', ['foo', 'bar', 42, 42, 42]],
-            ['release', ['foo', 42, 42]],
-            ['reserve', [42]],
-            ['reserveFromTube', ['foo', 42]],
-            ['statsJob', ['foo']],
-            ['statsTube', ['foo']],
             ['stats'],
-            ['touch', ['foo']],
-            ['useTube', ['foo']],
-            ['watch', ['foo']],
-            ['watchOnly', ['foo']],
+            ['workflowExists', ['test']],
+            ['getWorkflow', [$workflow]],
+            ['getWorkflowInstances'],
+            ['getWorkflowInstancesDetails', [$workflowInstance]],
+            ['tubeExists', ['test']],
+            ['listTubes'],
+            ['peek'],
+            ['put', [$workflow]],
+            ['delete', [$workflow]],
+            ['statsTube', [$tube]],
+            ['stats'],
+            ['create', [$workflow]],
+            ['create', [$workflow, true]],
+            ['update', [$workflow]],
+            ['createSchedule', [$schedule]],
+            ['deleteSchedule', [$schedule]],
+            ['getSchedule', [1]],
+            ['updateSchedule', [$schedule]],
+            ['listSchedules'],
+            ['createTask', ['testName', 'testGroup', 'bin/console c:c']],
+            ['createTube', [$tube]],
+            ['updateTube', [$tube]],
+            ['cancel', [$workflowInstance]],
+            ['kill', [$workflowInstance, $taskInstance]],
         ];
     }
 

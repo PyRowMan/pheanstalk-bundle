@@ -4,6 +4,7 @@ namespace Pyrowman\PheanstalkBundle\DependencyInjection;
 
 use Pyrowman\PheanstalkBundle\DataCollector\PheanstalkDataCollector;
 use Pyrowman\PheanstalkBundle\Exceptions\PheanstalkException;
+use Pyrowman\PheanstalkBundle\Listener\PheanstalkLogListener;
 use Pyrowman\PheanstalkBundle\PheanstalkLocator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,27 +32,45 @@ class LeezyPheanstalkExtension extends Extension
         $loader->load('services.xml');
         $loader->load('commands.xml');
 
-        $this->configureConnections($container, $config);
-
-        if ($config['profiler']['enabled']) {
-            $this->configureProfiler($container, $config);
-        }
+        $this->configureLocator($container, $config);
+        $this->configureLogListener($container, $config);
+        $this->configureProfiler($container, $config);
     }
 
     /**
-     * Configures the Connections and Connection Locator.
-     *
      * @param ContainerBuilder $container
      * @param array            $config
-     *
-     * @throws PheanstalkException
      */
-    public function configureConnections(ContainerBuilder $container, array $config)
+    private function configureLogListener(ContainerBuilder $container, array $config): void
+    {
+        if(false === $container->has('logger')) {
+            return;
+        }
+        // Create a connection locator that will reference all existing connection
+        $definition = new Definition(PheanstalkLogListener::class);
+        $definition->addArgument(new Reference(PheanstalkLocator::class));
+        $definition->addTag('kernel.event_subscriber');
+        $definition->addTag('monolog.logger', [
+            'channel' => 'pheanstalk',
+        ]);
+        $definition->addMethodCall('setLogger', [
+            new Reference('logger')
+        ]);
+        $container->setDefinition('pyrowman.pheanstalk.listener.log', $definition)->setPublic(true);
+        $container->setAlias(PheanstalkLogListener::class, 'pyrowman.pheanstalk.listener.log');
+    }
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureLocator(ContainerBuilder $container, array $config): void
     {
         // Create a connection locator that will reference all existing connection
         $connectionLocatorDef = new Definition(PheanstalkLocator::class);
-        $container->setDefinition('leezy.pheanstalk.pheanstalk_locator', $connectionLocatorDef);
-        $container->setParameter('leezy.pheanstalk.pheanstalks', $config['pheanstalks']);
+        $connectionLocatorDef->setPublic(true);
+        $container->setDefinition('pyrowman.pheanstalk.pheanstalk_locator', $connectionLocatorDef);
+        $container->setAlias(PheanstalkLocator::class, 'pyrowman.pheanstalk.pheanstalk_locator');
+        $container->setParameter('pyrowman.pheanstalk.pheanstalks', $config['pheanstalks']);
     }
 
     /**
@@ -60,14 +79,17 @@ class LeezyPheanstalkExtension extends Extension
      * @param ContainerBuilder $container Container
      * @param array            $config    Configuration
      */
-    public function configureProfiler(ContainerBuilder $container, array $config)
+    private function configureProfiler(ContainerBuilder $container, array $config): void
     {
+        if(false === $config['profiler']['enabled']) {
+            return;
+        }
         // Setup the data collector service for Symfony profiler
         $dataCollectorDef = new Definition(PheanstalkDataCollector::class);
-        $dataCollectorDef->setPublic(false);
+        $dataCollectorDef->setPublic(true);
         $dataCollectorDef->addTag('data_collector', ['id' => 'pheanstalk', 'template' => $config['profiler']['template']]);
-        $dataCollectorDef->addArgument(new Reference('leezy.pheanstalk.pheanstalk_locator'));
-
-        $container->setDefinition('leezy.pheanstalk.data_collector', $dataCollectorDef);
+        $dataCollectorDef->addArgument(new Reference('pyrowman.pheanstalk.pheanstalk_locator'));
+        $container->setDefinition('pyrowman.pheanstalk.data_collector', $dataCollectorDef);
+        $container->setAlias(PheanstalkDataCollector::class, 'pyrowman.pheanstalk.data_collector');
     }
 }
