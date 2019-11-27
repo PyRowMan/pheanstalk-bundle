@@ -328,7 +328,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
      */
     public function createTask(string $name, string $group, string $path, $queue = 'default', $useAgent = false, $user = null, $host = null, $comment = null): Workflow
     {
-        $this->dispatch(new CommandEvent($this, [
+        $datas = [
             'name'      => $name,
             'group'     => $group,
             'path'      => $path,
@@ -337,7 +337,8 @@ class PheanstalkProxy implements PheanstalkProxyInterface
             'user'      => $user,
             'host'      => $host,
             'comment'   => $comment
-        ]), CommandEvent::CREATE_TASK);
+        ];
+        $this->dispatch(new CommandEvent($this, $datas), CommandEvent::CREATE_TASK);
 
 
         return $this->pheanstalk->createTask($name, $group, $path, $queue, $useAgent, $user, $host, $comment);
@@ -380,6 +381,10 @@ class PheanstalkProxy implements PheanstalkProxyInterface
         return $this->pheanstalk->kill($workflowInstance, $taskInstance);
     }
 
+    /**
+     * @param CommandEvent $commandEvent
+     * @param string|null  $eventName
+     */
     protected function dispatch(CommandEvent $commandEvent, string $eventName = null)
     {
         if ($this->dispatcher) {
