@@ -92,8 +92,9 @@ class PheanstalkDataCollector extends DataCollector
             $this->data['tubes'] = [];
             /** @var Tube $tube */
             foreach ($tubes as $tube) {
-                if(strpos($tube->getName(), '@'))
-                    continue;
+                if (strpos($tube->getName(), '@')) {
+                                    continue;
+                }
                 // Fetch next ready job and next buried job for this tube
                 $stats = $pheanstalk->statsTube($tube);
                 $this->data['tubes'][] = [
