@@ -43,7 +43,7 @@ class LeezyPheanstalkExtension extends Extension
      */
     private function configureLogListener(ContainerBuilder $container, array $config): void
     {
-        if(false === $container->has('logger')) {
+        if (false === $container->has('logger')) {
             return;
         }
         // Create a connection locator that will reference all existing connection
@@ -81,7 +81,7 @@ class LeezyPheanstalkExtension extends Extension
      */
     private function configureProfiler(ContainerBuilder $container, array $config): void
     {
-        if(false === $config['profiler']['enabled']) {
+        if (false === $config['profiler']['enabled']) {
             return;
         }
         // Setup the data collector service for Symfony profiler
