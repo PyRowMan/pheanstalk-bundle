@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('leezy_pheanstalk');
+        $treeBuilder = new TreeBuilder('pheanstalk');
         $rootNode = $treeBuilder->getRootNode()->children();
 
         $rootNode
@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->scalarNode('enabled')->defaultValue('%kernel.debug%')->end()
-                    ->scalarNode('template')->defaultValue('@LeezyPheanstalk/Profiler/pheanstalk.html.twig')->end()
+                    ->scalarNode('template')->defaultValue('@Pheanstalk/Profiler/pheanstalk.html.twig')->end()
                 ->end()
             ->end()
             ->arrayNode('pheanstalks')
@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('proxy')
                             ->cannotBeEmpty()
-                            ->defaultValue('leezy.pheanstalk.proxy.default')
+                            ->defaultValue('pheanstalk.proxy.default')
                         ->end()
                     ->end()
                 ->end()

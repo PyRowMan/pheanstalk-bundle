@@ -6,7 +6,7 @@ use Pyrowman\PheanstalkBundle\DependencyInjection\Compiler\ProxyCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class LeezyPheanstalkBundle extends Bundle
+class PheanstalkBundle extends Bundle
 {
     /**
      * @inheritdoc
