@@ -3,6 +3,8 @@
 namespace Pyrowman\PheanstalkBundle\Tests\Proxy;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Pheanstalk\Connection;
+use Pheanstalk\Pheanstalk;
 use Pheanstalk\Structure\Schedule;
 use Pheanstalk\Structure\TaskInstance;
 use Pheanstalk\Structure\TimeSchedule;
@@ -13,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxy;
 use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
 use Pheanstalk\PheanstalkInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PheanstalkProxyTest extends TestCase
@@ -58,7 +61,10 @@ class PheanstalkProxyTest extends TestCase
         $taskInstance = new TaskInstance([]);
         $tube = new Tube('testTube', 1);
         $schedule = new Schedule(1, new TimeSchedule());
+        $connection = new Connection('localhost');
         return [
+            ['setConnection', [$connection]],
+            ['getConnection'],
             ['stats'],
             ['workflowExists', ['test']],
             ['getWorkflow', [$workflow]],
@@ -105,5 +111,25 @@ class PheanstalkProxyTest extends TestCase
         $pheanstalkProxy->setDispatcher($dispatchMock);
 
         call_user_func_array([$pheanstalkProxy, $name], $value);
+    }
+
+    public function testCurrentClass()
+    {
+        $pheanstalk = new Pheanstalk('localhost');
+        $this->pheanstalkProxy->setCurrentClass($pheanstalk);
+        $this->assertSame($pheanstalk, $this->pheanstalkProxy->getCurrentClass());
+    }
+
+    public function testName()
+    {
+        $this->pheanstalkProxy->setName('test');
+        $this->assertSame('test', $this->pheanstalkProxy->getName());
+    }
+
+    public function testDispatcher()
+    {
+        $dispatcher = new EventDispatcher();
+        $this->pheanstalkProxy->setDispatcher($dispatcher);
+        $this->assertSame($dispatcher, $this->pheanstalkProxy->getDispatcher());
     }
 }

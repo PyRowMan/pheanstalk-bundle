@@ -3,6 +3,7 @@
 namespace Pyrowman\PheanstalkBundle\Tests\Command;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Pheanstalk\Exception\ServerException;
 use Pheanstalk\Structure\Workflow;
 use Pyrowman\PheanstalkBundle\Command\DeleteWorkflowCommand;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -21,6 +22,19 @@ class DeleteWorkflowCommandTest extends AbstractPheanstalkCommandTest
         $commandTester->execute($args);
 
         $this->assertContains(sprintf('Workflow %s deleted', $workflow->getName()), $commandTester->getDisplay());
+    }
+
+    public function testFailExecute()
+    {
+        $args = $this->getCommandArgs();
+
+        $this->pheanstalk->expects($this->once())->method('delete')->willThrowException(new ServerException('Test error'));
+
+        $command = $this->application->find('pyrowman:pheanstalk:delete-workflow');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute($args);
+
+        $this->assertContains('Test error', $commandTester->getDisplay());
     }
 
     /**
