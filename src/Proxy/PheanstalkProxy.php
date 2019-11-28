@@ -359,7 +359,7 @@ class PheanstalkProxy implements PheanstalkProxyInterface
      */
     public function updateTube(Tube $tube): Tube
     {
-        $this->dispatch(new CommandEvent($this, ['tube' => $tube]), COmmandEvent::CREATE_TUBE);
+        $this->dispatch(new CommandEvent($this, ['tube' => $tube]), CommandEvent::UPDATE_TUBE);
 
         return $this->pheanstalk->updateTube($tube);
     }
@@ -369,14 +369,14 @@ class PheanstalkProxy implements PheanstalkProxyInterface
      */
     public function cancel(WorkflowInstance $workflowInstance)
     {
-        $this->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance]), COmmandEvent::CANCEL);
+        $this->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance]), CommandEvent::CANCEL);
 
         return $this->pheanstalk->cancel($workflowInstance);
     }
 
     public function kill(WorkflowInstance $workflowInstance, TaskInstance $taskInstance)
     {
-        $this->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance, 'taskInstance' => $taskInstance]), COmmandEvent::CANCEL);
+        $this->dispatch(new CommandEvent($this, ['workflowInstance' => $workflowInstance, 'taskInstance' => $taskInstance]), CommandEvent::CANCEL);
 
         return $this->pheanstalk->kill($workflowInstance, $taskInstance);
     }

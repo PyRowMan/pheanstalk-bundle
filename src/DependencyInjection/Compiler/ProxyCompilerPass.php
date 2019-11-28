@@ -39,10 +39,6 @@ class ProxyCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasParameter('pyrowman.pheanstalk.pheanstalks')) {
-            return;
-        }
-
         $defaultPheanstalkName = null;
         $pheanstalks           = $container->getParameter('pyrowman.pheanstalk.pheanstalks');
 

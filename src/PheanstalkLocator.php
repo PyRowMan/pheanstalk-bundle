@@ -61,12 +61,8 @@ class PheanstalkLocator
      * @param PheanstalkInterface $pheanstalk
      * @param bool                $default
      */
-    public function addPheanstalk($name, PheanstalkInterface $pheanstalk, $default = false)
+    public function addPheanstalk($name, PheanstalkInterface $pheanstalk, bool $default = false)
     {
-        if (!is_bool($default)) {
-            throw new \InvalidArgumentException('Default parameter have to be a boolean');
-        }
-
         $this->pheanstalks[$name] = $pheanstalk;
 
         // Set the default connection name

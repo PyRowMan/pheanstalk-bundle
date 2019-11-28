@@ -8,6 +8,7 @@ use Pyrowman\PheanstalkBundle\Listener\PheanstalkLogListener;
 use Pheanstalk\Connection;
 use Pheanstalk\PheanstalkInterface;
 use Psr\Log\LoggerInterface;
+use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxyInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PheanstalkLogListenerTest extends TestCase
@@ -43,8 +44,8 @@ class PheanstalkLogListenerTest extends TestCase
         ;
 
         $this->pheanstalk = $this
-            ->getMockBuilder(PheanstalkInterface::class)
-            ->setMethods(['getConnection'])
+            ->getMockBuilder(PheanstalkProxyInterface::class)
+            ->setMethods(['getConnection', 'getName'])
             ->getMockForAbstractClass()
         ;
 

@@ -290,4 +290,5 @@ class LeezyPheanstalkExtensionTest extends TestCase
         $this->container->compile();
         $this->assertFalse($this->container->hasDefinition('pyrowman.pheanstalk.data_collector'));
     }
+
 }
