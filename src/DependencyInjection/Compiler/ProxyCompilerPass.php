@@ -44,7 +44,7 @@ class ProxyCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $pheanstalks = $container->getParameter('pyrowman.pheanstalk.pheanstalks');
+        $pheanstalks = $container->getParameter('pheanstalk.pheanstalks');
 
         // For each connection in the configuration file
         foreach ($pheanstalks as $name => $pheanstalk) {
@@ -61,7 +61,7 @@ class ProxyCompilerPass implements CompilerPassInterface
      */
     protected function addServer($name, array $pheanstalk, ContainerBuilder $container)
     {
-        $pheanstalkLocatorDef = $container->getDefinition('pyrowman.pheanstalk.pheanstalk_locator');
+        $pheanstalkLocatorDef = $container->getDefinition('pheanstalk.pheanstalk_locator');
         if (in_array($name, $this->reservedName())) {
             throw new \RuntimeException('Reserved pheanstalk name: ' . $name);
         }
@@ -82,12 +82,12 @@ class ProxyCompilerPass implements CompilerPassInterface
         $pheanstalkDef->addMethodCall('setName', [$name]);
         $pheanstalkDef->setPublic(true);
 
-        $container->setDefinition('pyrowman.pheanstalk.' . $name, $pheanstalkDef);
+        $container->setDefinition('pheanstalk.' . $name, $pheanstalkDef);
 
         // Register the connection in the connection locator
         $pheanstalkLocatorDef->addMethodCall('addPheanstalk', [
             $name,
-            $container->getDefinition('pyrowman.pheanstalk.' . $name),
+            $container->getDefinition('pheanstalk.' . $name),
             $isDefault,
         ]);
 
@@ -109,10 +109,10 @@ class ProxyCompilerPass implements CompilerPassInterface
         }
 
         $this->defaultPheanstalkName = $name;
-        $legacyAlias = $container->setAlias('pyrowman.pheanstalk', 'pyrowman.pheanstalk.' . $name);
+        $legacyAlias = $container->setAlias('pheanstalk', 'pheanstalk.' . $name);
         $legacyAlias->setPublic(true);
 
-        $autoWiringAlias = $container->setAlias(PheanstalkInterface::class, 'pyrowman.pheanstalk');
+        $autoWiringAlias = $container->setAlias(PheanstalkInterface::class, 'pheanstalk');
         $autoWiringAlias->setPublic(true);
     }
 }

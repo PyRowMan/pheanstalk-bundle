@@ -7,33 +7,33 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class CommandEvent extends Event
 {
-    const DELETE                        = 'leezy.pheanstalk.event.delete';
-    const WORKFLOW_EXISTS               = 'leezy.pheanstalk.event.workflow_exists';
-    const WORKFLOW_INSTANCES            = 'leezy.pheanstalk.event.workflow_instances';
-    const WORKFLOW_INSTANCES_DETAILS    = 'leezy.pheanstalk.event.workflow_instances_details';
-    const TASK_EXISTS                   = 'leezy.pheanstalk.event.task_exists';
-    const TUBE_EXISTS                   = 'leezy.pheanstalk.event.tube_exists';
-    const LIST_TUBES                    = 'leezy.pheanstalk.event.list_tubes';
-    const LIST_WORKFLOWS                = 'leezy.pheanstalk.event.list_workflows';
-    const PEEK                          = 'leezy.pheanstalk.event.peek';
-    const PEEK_READY                    = 'leezy.pheanstalk.event.peek_ready';
-    const PUT                           = 'leezy.pheanstalk.event.put';
-    const CANCEL                        = 'leezy.pheanstalk.event.cancel';
-    const KILL                          = 'leezy.pheanstalk.event.kill';
-    const STATS                         = 'leezy.pheanstalk.event.stats';
-    const STATS_TUBE                    = 'leezy.pheanstalk.event.stats_tube';
-    const STATS_JOB                     = 'leezy.pheanstalk.event.stats_job';
-    const CREATE_WORKFLOW               = 'leezy.pheanstalk.event.create_workflow';
-    const CREATE_SCHEDULE               = 'leezy.pheanstalk.event.create_schedule';
-    const UPDATE_SCHEDULE               = 'leezy.pheanstalk.event.create_schedule';
-    const DELETE_SCHEDULE               = 'leezy.pheanstalk.event.delete_schedule';
-    const LIST_SCHEDULE                 = 'leezy.pheanstalk.event.list_schedule';
-    const GET_SCHEDULE                  = 'leezy.pheanstalk.event.get_schedule';
-    const UPDATE_WORKFLOW               = 'leezy.pheanstalk.event.update_workflow';
-    const CREATE_WORKFLOW_SCHEDULER     = 'leezy.pheanstalk.event.create_workflow_scheduler';
-    const CREATE_TASK                   = 'leezy.pheanstalk.event.create_task';
-    const CREATE_TUBE                   = 'leezy.pheanstalk.event.create_tube';
-    const UPDATE_TUBE                   = 'leezy.pheanstalk.event.update_tube';
+    const DELETE                        = 'pheanstalk.event.delete';
+    const WORKFLOW_EXISTS               = 'pheanstalk.event.workflow_exists';
+    const WORKFLOW_INSTANCES            = 'pheanstalk.event.workflow_instances';
+    const WORKFLOW_INSTANCES_DETAILS    = 'pheanstalk.event.workflow_instances_details';
+    const TASK_EXISTS                   = 'pheanstalk.event.task_exists';
+    const TUBE_EXISTS                   = 'pheanstalk.event.tube_exists';
+    const LIST_TUBES                    = 'pheanstalk.event.list_tubes';
+    const LIST_WORKFLOWS                = 'pheanstalk.event.list_workflows';
+    const PEEK                          = 'pheanstalk.event.peek';
+    const PEEK_READY                    = 'pheanstalk.event.peek_ready';
+    const PUT                           = 'pheanstalk.event.put';
+    const CANCEL                        = 'pheanstalk.event.cancel';
+    const KILL                          = 'pheanstalk.event.kill';
+    const STATS                         = 'pheanstalk.event.stats';
+    const STATS_TUBE                    = 'pheanstalk.event.stats_tube';
+    const STATS_JOB                     = 'pheanstalk.event.stats_job';
+    const CREATE_WORKFLOW               = 'pheanstalk.event.create_workflow';
+    const CREATE_SCHEDULE               = 'pheanstalk.event.create_schedule';
+    const UPDATE_SCHEDULE               = 'pheanstalk.event.create_schedule';
+    const DELETE_SCHEDULE               = 'pheanstalk.event.delete_schedule';
+    const LIST_SCHEDULE                 = 'pheanstalk.event.list_schedule';
+    const GET_SCHEDULE                  = 'pheanstalk.event.get_schedule';
+    const UPDATE_WORKFLOW               = 'pheanstalk.event.update_workflow';
+    const CREATE_WORKFLOW_SCHEDULER     = 'pheanstalk.event.create_workflow_scheduler';
+    const CREATE_TASK                   = 'pheanstalk.event.create_task';
+    const CREATE_TUBE                   = 'pheanstalk.event.create_tube';
+    const UPDATE_TUBE                   = 'pheanstalk.event.update_tube';
 
     /**
      * @var PheanstalkInterface

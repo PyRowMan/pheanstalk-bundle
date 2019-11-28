@@ -5,10 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="pyrowman.pheanstalk.command.abstract" class="Pyrowman\PheanstalkBundle\Command\AbstractPheanstalkCommand" abstract="true">
-            <argument type="service" id="pyrowman.pheanstalk.pheanstalk_locator"/>
+        <service id="pheanstalk.command.abstract" class="Pyrowman\PheanstalkBundle\Command\AbstractPheanstalkCommand" abstract="true">
+            <argument type="service" id="pheanstalk.pheanstalk_locator"/>
         </service>
-        <service id="pyrowman.pheanstalk.command.delete_workflow" class="Pyrowman\PheanstalkBundle\Command\DeleteWorkflowCommand" parent="pyrowman.pheanstalk.command.abstract" public="true">
+        <service id="pheanstalk.command.delete_workflow" class="Pyrowman\PheanstalkBundle\Command\DeleteWorkflowCommand" parent="pheanstalk.command.abstract" public="true">
             <tag name="console.command"/>
         </service>
     </services>

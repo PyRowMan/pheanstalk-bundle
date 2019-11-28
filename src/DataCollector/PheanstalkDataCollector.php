@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 /**
- * This is the data collector for LeezyPheanstalkBundle.
+ * This is the data collector for PheanstalkBundle.
  *
  * @see    http://symfony.com/doc/current/cookbook/profiler/data_collector.html
  *
