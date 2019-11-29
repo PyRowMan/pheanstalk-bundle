@@ -9,7 +9,7 @@
         <!--<log type="junit" target="build/logs/junit.xml"/>-->
     </logging>
     <testsuites>
-        <testsuite name="LeezyPheanstalkBundle test suite">
+        <testsuite name="PheanstalkBundle test suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>

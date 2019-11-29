@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('port')
                             ->cannotBeEmpty()
-                            ->defaultValue('11300')
+                            ->defaultValue('5000')
                         ->end()
                         ->scalarNode('user')
                             ->cannotBeEmpty()
