@@ -2,16 +2,16 @@
 
 Installation is a quick 3 step process:
 
-1. Download LeezyPheanstalkBundle using composer
+1. Download PheanstalkBundle using composer
 2. Enable the Bundle
 3. Configure your application's config.yml
 
-### Step 1: Require LeezyPheanstalkBundle
+### Step 1: Require PheanstalkBundle
 
 Tell composer to require this bundle by running:
 
 ``` bash
-$ composer require leezy/pheanstalk-bundle
+$ composer require pyrowman/pheanstalk-bundle
 ```
 
 ### Step 2: Enable the bundle
@@ -26,7 +26,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
+        new Pyrowman\PheanstalkBundle\PheanstalkBundle(),
     );
 }
 ```
@@ -37,9 +37,11 @@ Finally, add the following to your config.yml
 
 ``` yaml
 # app/config/config.yml
-leezy_pheanstalk:
+pheanstalk:
     pheanstalks:
         primary:
-            server: beanstalkd.domain.tld
+            server: evqueue.domain.tld
+            user: my_awesome_login_from_env_file
+            password: my_awesome_password_from_env_file
             default: true
 ```

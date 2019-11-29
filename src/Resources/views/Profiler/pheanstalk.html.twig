@@ -4,7 +4,7 @@
     <div class="sf-toolbar-block sf-toolbar-block-leezy-pheanstalk sf-toolbar-status-normal">
         <a href="{{ path('_profiler', { 'token': token, 'panel': name }) }}">
             <div class="sf-toolbar-icon">
-                {{ include('@LeezyPheanstalk/Profiler/queue.svg') }}
+                {{ include('@Pheanstalk/Profiler/queue.svg') }}
                 <span class="sf-toolbar-value">{{ collector.jobCount }}</span>
                 <span class="sf-toolbar-label">Jobs</span>
             </div>
@@ -28,7 +28,7 @@
 
 {% block menu %}
     <span class="label">
-        <span class="icon">{{ include('@LeezyPheanstalk/Profiler/queue.svg') }}</span>
+        <span class="icon">{{ include('@Pheanstalk/Profiler/queue.svg') }}</span>
         <strong>Pheanstalk</strong>
         <span class="count">
             <span>{{ collector.pheanstalks|length }}</span>

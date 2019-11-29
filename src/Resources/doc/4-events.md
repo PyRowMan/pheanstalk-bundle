@@ -3,44 +3,44 @@
 On each pheanstalk command, an event is dispatched.
 
 See events name above :
-* CommandEvent::BURY 
-* CommandEvent::DELETE 
-* CommandEvent::IGNORE 
-* CommandEvent::KICK 
-* CommandEvent::LIST_TUBE_USED 
-* CommandEvent::LIST_TUBES 
-* CommandEvent::LIST_TUBES_WATCHED 
-* CommandEvent::PAUSE_TUBE 
-* CommandEvent::PEEK 
-* CommandEvent::PEEK_READY 
-* CommandEvent::PEEK_DELAYED 
-* CommandEvent::PEEK_BURIED 
-* CommandEvent::PUT 
-* CommandEvent::PUT_IN_TUBE 
-* CommandEvent::RELEASE 
-* CommandEvent::RESERVE 
-* CommandEvent::RESERVE_FROM_TUBE 
-* CommandEvent::STATS 
-* CommandEvent::STATS_TUBE 
-* CommandEvent::STATS_JOB 
-* CommandEvent::TOUCH 
-* CommandEvent::USE_TUBE 
-* CommandEvent::WATCH 
-* CommandEvent::WATCH_ONLY 
+* CommandEvent::DELETE
+* CommandEvent::LIST_TUBES                    
+* CommandEvent::LIST_WORKFLOWS                
+* CommandEvent::PEEK
+* CommandEvent::PUT                           
+* CommandEvent::STATS
+* CommandEvent::STATS_TUBE                    
+* CommandEvent::STATS_JOB
+* CommandEvent::CREATE_TASK                   
+* CommandEvent::CREATE_TUBE
+* CommandEvent::CREATE_WORKFLOW               
+* CommandEvent::UPDATE_WORKFLOW
+* CommandEvent::CREATE_WORKFLOW_SCHEDULER     
+* CommandEvent::WORKFLOW_EXISTS
+* CommandEvent::WORKFLOW_INSTANCES            
+* CommandEvent::WORKFLOW_INSTANCES_DETAILS
+* CommandEvent::TASK_EXISTS                   
+* CommandEvent::TUBE_EXISTS
+* CommandEvent::CANCEL                        
+* CommandEvent::KILL
+* CommandEvent::CREATE_SCHEDULE               
+* CommandEvent::UPDATE_SCHEDULE
+* CommandEvent::LIST_SCHEDULE                 
+* CommandEvent::DELETE_SCHEDULE
+* CommandEvent::GET_SCHEDULE                  
 
-**Note** FQDN is \Leezy\PheanstalkBundle\Event\CommandEvent  
-**Note** If you need more documentation about those events; you should read the [beanstalkd protocol](https://raw.githubusercontent.com/kr/beanstalkd/master/doc/protocol.txt).
+**Note** FQDN is \Pyrowman\PheanstalkBundle\Event\CommandEvent  
 
 ## Usage example
 
-``` php
+```php
 <?php
 
 namespace Acme\DemoBundle\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-use Leezy\PheanstalkBundle\Event\CommandEvent;
+use Pyrowman\PheanstalkBundle\Event\CommandEvent;
 
 class PheanstalkSubscriber implements EventSubscriberInterface {
 
@@ -73,22 +73,24 @@ class PheanstalkSubscriber implements EventSubscriberInterface {
 ?>
 ```
 
-``` php
+```php
 <?php
 
 namespace Acme\DemoBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Pyrowman\PheanstalkBundle\Proxy\PheanstalkProxy;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController extends Controller {
+class HomeController extends AbstractController {
 
     public function indexAction() {
         // ----------------------------------------
         // producer (queues jobs)
 
-        $pheanstalk = $this->get("leezy.pheanstalk");
-        $pheanstalk->useTube('testtube');
-        $pheanstalk->put("job payload goes here\n");
+        /** @var PheanstalkProxy $pheanstalk */
+        $pheanstalk = $this->get("pheanstalk");
+        $workflow = $pheanstalk->createTask('Sleep', 'Test', '/bin/sleep 80');
+        $pheanstalk->put($workflow);
     }
 
 }
