@@ -16,12 +16,12 @@
     "require": {
         "php": ">=7.1",
         "psr/log": "~1.0",
-        "symfony/framework-bundle": "~2.5|~3.0|^4.0|^5.0",
-        "symfony/console": "~2.5|~3.0|^4.0|^5.0",
+        "symfony/framework-bundle": "~2.5|~3.0|~4.0|~5.0",
+        "symfony/console": "~2.5|~3.0|~4.0|~5.0",
         "pyrowman/pheanstalk": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": "~7.1",
         "phpunit/phpunit-mock-objects": "6.1",
         "squizlabs/php_codesniffer": "*"
     },
@@ -34,7 +34,10 @@
     "autoload-dev": {
         "psr-4": {
             "Pyrowman\\PheanstalkBundle\\Tests\\": "tests/"
-        }
+        },
+        "exclude-from-classmap": [
+            "/tests/"
+        ]
     },
     "config": {
         "bin-dir": "bin"
