@@ -25,7 +25,7 @@
         "phpunit/phpunit-mock-objects": "6.1",
         "squizlabs/php_codesniffer": "*"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Pyrowman\\PheanstalkBundle\\": "src/"
